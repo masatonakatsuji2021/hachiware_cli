@@ -1,0 +1,23 @@
+{
+  "name": "hachiware_cli",
+  "version": "1.0.0",
+  "description": "CLI Framework for Node.js.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/masatonakatsuji2021/hachiware_cli.git"
+  },
+  "keywords": [
+    "javascript",
+    "CLI"
+  ],
+  "author": "Nakatsuji Masato",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/masatonakatsuji2021/hachiware_cli/issues"
+  },
+  "homepage": "https://github.com/masatonakatsuji2021/hachiware_cli#readme"
+}
