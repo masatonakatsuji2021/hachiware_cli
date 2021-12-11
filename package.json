@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/masatonakatsuji2021/hachiware_cli/issues"
   },
-  "homepage": "https://github.com/masatonakatsuji2021/hachiware_cli#readme"
+  "homepage": "https://github.com/masatonakatsuji2021/hachiware_cli#readme",
+  "dependencies": {
+    "hachiware_sync": "^1.0.0"
+  }
 }
