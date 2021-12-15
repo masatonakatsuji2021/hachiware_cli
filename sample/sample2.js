@@ -22,35 +22,40 @@ cli.then(function(resolve){
 	},3000);
 
 }).then(function(resolve){
-	var cond =this;
+
+	var progress = this.progress("Test Download Bbb....", "KB", 3500);
 
 	var value = 0;
 	var stt = setInterval(function(){
-		value++;
 
-		cond.progressBar("Test Loading Bbb....", 100, value);
+		progress.refresh(value);
 
-		if(value == 100){
-			cond.br();
+		if(value == 3500){
+			progress.resolve();
 			clearInterval(stt);
 			resolve();
 		}
+
+		value += 5;
 	},20);
 
 }).then(function(resolve){
 	var cond =this;
 
+	var progressPersec = this.progressPersec("Test Install Bbb....");
+
 	var value = 0;
 	var stt = setInterval(function(){
-		value++;
 
-		cond.progressBar("Test Loading Ccc....", 100, value);
+		progressPersec.refresh(value);
 
 		if(value == 100){
-			cond.br();
+			progressPersec.resolve();
 			clearInterval(stt);
 			resolve();
 		}
+
+		value++;
 	},70);
 
 }).then(function(){

@@ -443,5 +443,88 @@ module.exports = function(firstCallback){
 		return this;
 	};
 
+	/**
+	 * progress
+	 * @param {*} string 
+	 * @param {*} unit 
+	 * @param {*} maxValue 
+	 * @returns 
+	 */
+	this.progress = function(string, unit, maxValue){
+		var cond = this;
+
+		const refresh = function(value){
+
+			var persec = parseInt(value / maxValue * 100);
+
+			var loadingStr = "";
+			for(var n = 0 ; n < 50 ; n++){
+				if(persec > n * 2){
+					loadingStr += "*";
+				}
+				else{
+					loadingStr += " ";
+				}
+			}
+
+			if(value > maxValue){
+				value = maxValue;
+			}
+
+			cond.out(string + "[" + loadingStr + "] " + value + unit + "/" + maxValue + unit + "\r");
+		};
+
+		const resolve = function(){
+			cond.br();
+		};
+
+		return {
+			refresh: refresh,
+			resolve: resolve,
+		};
+
+	};
+
+
+	/**
+	 * progressPersec
+	 * @param {*} string 
+	 * @returns 
+	 */
+	this.progressPersec = function(string){
+		var cond = this;
+
+		var maxValue = 100;
+
+		const refresh = function(value){
+			var persec = parseInt(value / maxValue * 100);
+
+			var loadingStr = "";
+			for(var n = 0 ; n < 50 ; n++){
+				if(persec > n * 2){
+					loadingStr += "*";
+				}
+				else{
+					loadingStr += " ";
+				}
+			}
+
+			if(persec >= 100){
+				persec = 100;
+			}
+
+			cond.out(string + "[" + loadingStr + "] " + persec + "% " + "\r");
+		};
+
+		const resolve = function(){
+			cond.br();
+		};
+
+		return {
+			refresh: refresh,
+			resolve: resolve,
+		};
+	};
+
 	return constructor();
 };
