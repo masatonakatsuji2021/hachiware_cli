@@ -415,35 +415,6 @@ module.exports = function(firstCallback){
 	};
 
 	/**
-	 * progressBar
-	 * @param {*} string 
-	 * @param {*} maxValue 
-	 * @param {*} value 
-	 * @returns 
-	 */
-	this.progressBar = function(string ,maxValue ,value){
-
-		var persec = parseInt(value / maxValue * 100);
-
-		var loadingStr = "";
-		for(var n = 0 ; n < 50 ; n++){
-			if(persec > n * 2){
-				loadingStr += "*";
-			}
-			else{
-				loadingStr += " ";
-			}
-		}
-
-		if(persec >= 100){
-			persec = 100;
-		}
-		this.out(string + "[" + loadingStr + "] " + persec + "% " + "\r");
-
-		return this;
-	};
-
-	/**
 	 * progress
 	 * @param {*} string 
 	 * @param {*} unit 
