@@ -1,4 +1,4 @@
-const CLI = require("../");
+const CLI = require("hachiware_cli");
 
 var cli = new CLI();
 

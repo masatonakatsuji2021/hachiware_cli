@@ -232,54 +232,108 @@ module.exports = function(firstCallback){
 	 * outData
 	 * @param {*} data 
 	 * @param {*} option 
+	 * @param {*} indent 
+	 * @param {*} maxLengthField 
 	 * @returns 
 	 */
-	this.outData = function(data, option){
+	this.outData = function(data, option, indent, maxLengthField){
+		
+		const getMaxFieldLength = function(data, indent){
+
+			var res = 0;
+
+			var colums = Object.keys(data);
+			for(var n = 0 ; n < colums.length ; n++){
+				var field = colums[n];
+				var value = data[field];
+
+				if((field.length + indent * 2) > res){
+					res = (field.length + indent * 2);				
+				}
+
+				if(typeof value == "object"){
+					var buff = getMaxFieldLength(value, indent + 1);
+					if(buff > res){
+						res = buff;
+					}
+				}
+			}
+
+			return res;
+		};
 
 		if(!option){
 			option = {};
 		}
 
-		if(!option.fieldMaxLength){
-			option.fieldMaxLength = 10;
+		if(!indent){
+			indent = 0;
 		}
 
-		if(!option.valueMaxLength){
-			option.valueMaxLength = 20;
+		if(!maxLengthField){
+			maxLengthField = getMaxFieldLength(data, indent);
 		}
 
-		indent = 0;
+		if(!option.maxLengthValue){
+			option.maxLengthValue = 30;
+		}
 
-		var width = 0;
+		var str = "";
+
+		var indentStr = "";
+		if(indent){
+			for(var n = 0 ; n < indent ; n++){
+				indentStr += "  ";
+			}
+		}
 
 		var colums = Object.keys(data);
 		for(var n = 0 ; n < colums.length ; n++){
 			var field = colums[n];
-			var value = data[field].toString();
+			var value = data[field];
 
-			var buffStr = " " + field.padEnd(option.fieldMaxLength) + " : " + value.padEnd(option.valueMaxLength);
-			if(buffStr.length > width){
-				width = buffStr.length;
+			str += "\n  "
+				+ (indentStr + field.toString()).padEnd(maxLengthField)
+			;
+
+			if(
+				typeof value == "string" ||
+				typeof value == "number" ||
+				typeof value == "boolean"
+			){
+				str += " : " + value.toString().padEnd(option.maxLengthValue);
 			}
+			else{
 
-			if(n == 0){
-				if(!option.hiddenLine){
-					this.line(width);
+				if(Array.isArray(value)){
+
+					str += " : ";
+
+					for(var n2 = 0 ; n2 < value.length ; n2++){
+						str += (value[n2] + ", ").toString();
+					}
 				}
-			}
+				else{
 
-			this.outn(buffStr);
+					var nextIndent = 1;
+					if(indent){
+						nextIndent = parseInt(indent) + 1;
+					}
 
-			if(option.nowSpace){
-				this.outn();
-			}
+					var addStr = this.outData(value, option, nextIndent, maxLengthField);
 
-			if(!option.hiddenLine){
-				this.line(width);
+					str += indentStr + addStr;
+				}
 			}
 		}
 
-		return this;
+		if(indent){
+			return str;
+		}
+		else{
+			str += "\n\n";
+			process.stdout.write(str);
+		}
 	};
 
 	/**

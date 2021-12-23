@@ -1,4 +1,4 @@
-const CLI = require("../");
+const CLI = require("hachiware_cli");
 
 var cli = new CLI();
 
@@ -71,7 +71,7 @@ cli.then(function(resolve){
 
 	this.outData(data);
 
-	this.in("  Are you sure you want the above content?[Y/N]", function(value, retry){
+	this.in("Are you sure you want the above content?[Y/N]", function(value, retry){
 
 		value = value.toUpperCase();
 
