@@ -2,6 +2,7 @@
 
 <a href="https://github.com/masatonakatsuji2021/hachiware_cli/blob/master/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/masatonakatsuji2021/hachiware_cli"></a>
 <img alt="GitHub package.json version" src="https://img.shields.io/github/package-json/v/masatonakatsuji2021/hachiware_cli">
+<img alt="GitHub top language" src="https://img.shields.io/github/languages/top/masatonakatsuji2021/hachiware_cli">
 
 CLI Framework for Node.js.
 
