@@ -209,6 +209,13 @@ module.exports = function(firstCallback){
 
 		var input = inputStr.split(" ");
 
+		input = convertOptionArgs(input);
+
+		return input;
+	};
+
+	const convertOptionArgs = function(input){
+
 		for(var n = 0 ; n < input.length ; n++){
 			if(input[n].substring(0,1) == "-"){
 				var argSplit = input[n].split("=");
