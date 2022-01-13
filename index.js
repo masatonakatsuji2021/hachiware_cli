@@ -197,16 +197,58 @@ module.exports = function(firstCallback){
 	};
 
 	/**
-	 * getArgs
+	 * convertArgs
+	 * @param {*} inputStr 
 	 * @returns 
 	 */
-	this.getArgs = function(){
-		if(args.length){
-			return args;
+	this.convertArgs = function(inputStr){
+
+		if(!inputStr){
+			return;
 		}
-		else{
+
+		var input = inputStr.split(" ");
+
+		for(var n = 0 ; n < input.length ; n++){
+			if(input[n].substring(0,1) == "-"){
+				var argSplit = input[n].split("=");
+				if(argSplit.length == 2){
+					input[n] = {
+						name: argSplit[0].substring(1),
+						value: argSplit[1],
+					};
+				}
+				else{
+					input[n] = {
+						name: argSplit[0].substring(1),
+						value: true,
+					};
+				}
+			}
+		}
+
+		return input;
+	};
+
+	/**
+	 * getArgs
+	 * @param {*} input 
+	 * @returns 
+	 */
+	this.getArgs = function(input){
+		
+		var getArgs = args;
+		if(input){
+			getArgs = input;
+		}
+
+		if(!getArgs.length){
 			return null;
 		}
+
+		getArgs = convertOptionArgs(getArgs);
+
+		return getArgs;		
 	};
 
 	/**
