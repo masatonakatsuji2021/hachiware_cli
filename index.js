@@ -204,17 +204,52 @@ module.exports = function(firstCallback){
 	this.convertArgs = function(inputStr){
 
 		if(!inputStr){
-			return;
+			return convertOptionArgs();
 		}
 
-		var input = inputStr.split(" ");
+		var buffer = inputStr.split(" ");
 
-		input = convertOptionArgs(input);
+		var input = [];
 
-		return input;
+		var quoted = false;
+		var spbuff = "";
+		for(var n = 0 ; n < buffer.length ; n++){
+			var b_ = buffer[n];
+			if(b_.indexOf("\"") > -1){
+				if(quoted){
+					spbuff += " " + b_.split("\"").join("");
+					input.push(spbuff);
+					quoted = false;
+				}
+				else{
+					var count = b_.split("\"").length;
+					if(count % 2 == 1){
+						input.push(b_.split("\"").join(""));
+					}
+					else{
+						spbuff = b_.split("\"").join("");
+						quoted = true;	
+					}
+				}
+			}
+			else{
+				if(quoted){
+					spbuff += " " + b_.split("\"").join("");
+				}
+				else{
+					input.push(b_);
+				}
+			}
+		}
+		
+		return convertOptionArgs(input);
 	};
 
 	const convertOptionArgs = function(input){
+
+		if(!input){
+			input = [];
+		}
 
 		for(var n = 0 ; n < input.length ; n++){
 			if(input[n].substring(0,1) == "-"){
@@ -234,7 +269,59 @@ module.exports = function(firstCallback){
 			}
 		}
 
-		return input;
+		const Aregment = function(input){
+
+			this.length = input.length;
+
+			this.row = input;
+
+			this.get = function(index){
+				return input[index];
+			};
+
+			this.getExists = function(name){
+				
+				var result = false;
+				for(var n = 0 ; n < input.length ; n++){
+					var i_ = input[n];
+
+					if(typeof i_ != "object"){
+						continue;
+					}
+
+					if(i_.name == name){
+						if(i_.value != undefined){
+							result = true;
+							break;
+						}
+					}
+				}
+
+				return result;
+			};
+
+
+			this.getOpt = function(name){
+
+				var result = null;
+				for(var n = 0 ; n < input.length ; n++){
+					var i_ = input[n];
+
+					if(typeof i_ != "object"){
+						continue;
+					}
+
+					if(i_.name == name){
+						result = i_.value;
+						break;
+					}
+				}
+
+				return result;
+			};
+		};
+
+		return new Aregment(input);
 	};
 
 	/**
@@ -242,20 +329,17 @@ module.exports = function(firstCallback){
 	 * @param {*} input 
 	 * @returns 
 	 */
-	this.getArgs = function(input){
+	this.getArgs = function(){
 		
-		var getArgs = args;
-		if(input){
-			getArgs = input;
+		if(!args){
+			return convertOptionArgs();
 		}
 
-		if(!getArgs.length){
-			return null;
+		if(!args.length){
+			return convertOptionArgs();
 		}
 
-		getArgs = convertOptionArgs(getArgs);
-
-		return getArgs;		
+		return convertOptionArgs(args);
 	};
 
 	/**
@@ -298,6 +382,10 @@ module.exports = function(firstCallback){
 
 				if((field.length + indent * 2) > res){
 					res = (field.length + indent * 2);				
+				}
+
+				if(!value){
+					value = "".toString();
 				}
 
 				if(typeof value == "object"){
@@ -344,6 +432,10 @@ module.exports = function(firstCallback){
 			str += "\n  "
 				+ (indentStr + field.toString()).padEnd(maxLengthField)
 			;
+
+			if(!value && typeof value != "boolean"){
+				value = "".toString();
+			}
 
 			if(
 				typeof value == "string" ||
