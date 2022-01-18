@@ -1,3 +1,17 @@
+/**
+ * ====================================================================
+ * Hachiware_CLI
+ * 
+ * CLI(Commandline Interface) Framework for Node.js.
+ * 
+ * License : MIT License. 
+ * Since   : 2021.12.21
+ * Author  : Nakatsuji Masato 
+ * GitHub  : https://github.com/masatonakatsuji2021/hachiware_cli
+ * npm     : https://www.npmjs.com/package/hachiware_cli
+ * ====================================================================
+ */
+
 const syncs = require("hachiware_sync");
 const cliColor = require("./color.js");
 
@@ -28,6 +42,10 @@ module.exports = function(firstCallback){
 		}
 	});
 
+	/**
+	 * constructor
+	 * @returns 
+	 */
 	var constructor = function(){
 		if(firstCallback){
 			if(typeof firstCallback == "object"){
