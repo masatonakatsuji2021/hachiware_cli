@@ -560,4 +560,12 @@ install...[*************************************             ] 74%
 
 ---
 
-Author : Nakatsuji Masato.
+Hachiware_CLI
+
+CLI Framework for Node.js.
+ 
+License : MIT License.   
+Author  : Nakatsuji Masato  
+HP URL  : [https://hachiware-js.com/](https://hachiware-js.com/)  
+GitHub  : [https://github.com/masatonakatsuji2021/Hachiware_cli](https://github.com/masatonakatsuji2021/Hachiware_cli)  
+npm     : [https://www.npmjs.com/package/Hachiware_cli](https://www.npmjs.com/package/Hachiware_cli)
