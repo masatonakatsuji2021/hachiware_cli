@@ -5,7 +5,7 @@ module.exports = function(context){
 		red: [255,50,0],
 		green: [50,255,50],
 		blue: [40,170,255],
-		gray: [160,160,160],
+		gray: [120,120,120],
 		purple: [255,120,255],
 		yellow: [255,255,140],
 		orange: [255,150,60],
